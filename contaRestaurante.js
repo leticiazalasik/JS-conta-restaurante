@@ -16,11 +16,17 @@ function validarQualidadeServico(qualidadeServico) {
   }
 }
 
-function calcularConta(numeroPessoas, valorConsumido, qualidadeServico) {
+function calcularConta(numeroPessoas, valorConsumido, qualidadeServico, gorjetaPersonalizada = null) {
     let gorjeta = 0;
   
     // Verificando se os parâmetros são válidos
     if (valorConsumido > 0 && numeroPessoas > 0) {
+
+      if (gorjetaPersonalizada !== null) {
+        gorjeta = valorConsumido * (gorjetaPersonalizada / 100);  // Calcula a gorjeta com a porcentagem personalizada
+    } else {
+        // Caso contrário, usa a qualidade do serviço para determinar a gorjeta
+
       switch (qualidadeServico) {
         case 'excelente':
           gorjeta = valorConsumido * 0.15;
@@ -34,6 +40,7 @@ function calcularConta(numeroPessoas, valorConsumido, qualidadeServico) {
         default:
           return 'Qualidade de serviço inválida.';
       }
+    }
     } else {
       return 'Valor consumido e/ou quantidade de pessoas inválido';
     }
@@ -79,14 +86,19 @@ function calcularConta(numeroPessoas, valorConsumido, qualidadeServico) {
     return valorTotal;  // Se não houver desconto, retorna o valor original
 }
   
-  // Função que verifica se o valor por pessoa excedeu 100
+
+  // Função que verifica se o valor por pessoa excedeu 100 e 1000
   function verificarValorPorPessoa(valorPorPessoa) {
     if (parseFloat(valorPorPessoa) > 100) {
       console.log("Valor por pessoa excedeu 100,00");
+
+      if (parseFloat(valorPorPessoa) > 1000) {
+        console.log("Valor por pessoa excedeu 1.000,00!!!");
+      }
     }
   }
   
  
   // Teste da função
-  console.log(calcularConta(6, 120.00, "excelente"));
+  console.log(calcularConta(2, 2500.00, "excelente", 20));
   
